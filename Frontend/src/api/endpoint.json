@@ -6,7 +6,8 @@
             "update":"/todo/",
             "delete":"/todo/",
             "fetchOne":"/todo/",
-            "fetchAll":"/todo/"
+            "fetchAll":"/todo/",
+            "deleteMany":"/todo/"
             
         },
         "auth":{

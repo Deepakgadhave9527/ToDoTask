@@ -10,97 +10,95 @@ import { useHistory } from "react-router-dom";
 import AdminModule from "./features/admin/AdminSuper/AdminModule";
 
 const App = () => {
+  const history = useHistory();
+  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [isAdminAuth, setAdminAuth] = useState(false);
+  const [userName, SetUserName] = useState("");
 
-    const [isAuthenticated, setAuthenticated] = useState(false);
-    const [isAdminAuth, setAdminAuth] = useState(false);
-    const [userName, SetUserName] = useState("");
+  const token = localStorage.getItem("token");
+  const AdminToken = localStorage.getItem("AdminToken");
+  const [isLoggedIn, setLoggedIn] = useState(true);
 
-    const token = localStorage.getItem("token");
-    const [isLoggedIn, setLoggedIn] = useState(true);
+  useEffect(() => {
+    if (token == null) {
+      setLoggedIn(false);
+    }
+    SetUserName(token);
+  }, [token]);
 
-    useEffect(() => {
-        if (token == null) {
-            setLoggedIn(false);
-        }
-        SetUserName(token);
-    }, [token]);
+  const [isLoggedInAdmin, setLoggedInAdmin] = useState(true);
 
+  useEffect(() => {
+    if (AdminToken == null) {
+      setLoggedInAdmin(false);
+    }
+    SetUserName(AdminToken);
+  }, [AdminToken]);
 
-    const AdminToken = localStorage.getItem("AdminToken");
-    const [isLoggedInAdmin, setLoggedInAdmin] = useState(true);
+  const addUserName = (name) => {
+    SetUserName(name);
+  };
 
-    useEffect(() => {
-        if (AdminToken == null) {
-            setLoggedInAdmin(false);
-        }
-        SetUserName(AdminToken);
-    }, [AdminToken]);
+  const ProtectedRoute = (props) => {
+    return isAuthenticated ? (
+      <Route path={props.path}>{props.children}</Route>
+    ) : (
+      <Redirect to="/login" />
+    );
+  };
+  const AdminProtectedRoute = (props) => {
+    return isAdminAuth ? (
+      <Route path={props.path}>{props.children}</Route>
+    ) : (
+      <Redirect to="/login" />
+    );
+  };
 
+  return (
+    <>
+      <AuthContext.Provider value={setAuthenticated}>
+        <Header item={userName} />
+      </AuthContext.Provider>
 
-    const addUserName = (name) => {
-        SetUserName(name);
-    };
-
-    const ProtectedRoute = (props) => {
-        return isAuthenticated ? (
-            <Route path={props.path}>{props.children}</Route>
-        ) : (
-            <Redirect to="/login" />
-        );
-    };
-    const AdminProtectedRoute = (props) => {
-        return isAdminAuth ? (
-            <Route path={props.path}>{props.children}</Route>
-        ) : (
-            <Redirect to="/login" />
-        );
-    };
-
-    return (
-        <>
-            <AuthContext.Provider value={setAuthenticated}>
-                <Header item={userName} />
-            </AuthContext.Provider>
-
-            <Switch>
-                {/* <ProtectedRoute path="/secured">
+      <Switch>
+        {/* <ProtectedRoute path="/secured">
                 <FullLayout addUserName={addUserName} />
             </ProtectedRoute> */}
 
-                {isLoggedIn ? (
-                    <Route path="/secured">
-                        <FullLayout addUserName={addUserName} />
-                    </Route>
-                ) : (
-                    <ProtectedRoute path="/secured">
-                        <FullLayout addUserName={addUserName} />
-                    </ProtectedRoute>
-                )}
+        {isLoggedIn ? (
+          <Route path="/secured">
+            <FullLayout addUserName={addUserName} />
+          </Route>
+        ) : (
+          <ProtectedRoute path="/secured">
+            <FullLayout addUserName={addUserName} />
+          </ProtectedRoute>
+        )}
 
-                {/* <AdminProtectedRoute path="/admin">
+        {/* <AdminProtectedRoute path="/admin">
                 <AdminModule />
             </AdminProtectedRoute> */}
 
-                {isLoggedInAdmin ? (
-                    <Route path="/admin">
-                        <AdminModule />
-                    </Route>
-                ) : (
-                    <AdminProtectedRoute path="/admin">
-                        <AdminModule />
-                    </AdminProtectedRoute>
-                )}
+        {isLoggedInAdmin ? (
+          <Route path="/admin">
+            <AdminModule />
+          </Route>
+        ) : (
+          <AdminProtectedRoute path="/admin">
+            <AdminModule />
+          </AdminProtectedRoute>
+        )}
 
-                <Route path="/">
-                    <AuthContext.Provider value={setAuthenticated}>
-                        <AdminContex.Provider value={setAdminAuth}>
-                            <BlankLayout addUserName={addUserName} />
-                        </AdminContex.Provider>
-                    </AuthContext.Provider>
-                </Route>
-            </Switch>
-        </>
-    );
+        <Route path="/">
+          <AuthContext.Provider value={setAuthenticated}>
+            <AdminContex.Provider value={setAdminAuth}>
+              <BlankLayout addUserName={addUserName} />
+            </AdminContex.Provider>
+          </AuthContext.Provider>
+        </Route>
+      </Switch>
+    </>
+  );
 };
 
 export default App;

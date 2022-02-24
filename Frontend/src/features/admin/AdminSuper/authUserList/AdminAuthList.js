@@ -30,11 +30,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 10,
   },
   card: {
-    width: 1128,
+    width: 1130,
     // marginTop: -0,
     // margin: "auto",
     // boxShadow: "0 0 3px black",
-    marginTop: 0,
     // marginLeft: "1.2px",
 
     // marginTop: "-2px"
@@ -53,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0 5px 7px black",
 
     // backgroundColor: "#c8facd"
+  },
+  nomatch: {
+    // textAlign: "center",
+    marginLeft: "350px",
+    width: 500,
   },
 }));
 
@@ -81,19 +85,15 @@ const AdminAuthList = () => {
     overflow: "hidden",
     textOverflow: "ellipsis",
     // marginLeft: 25
-
-
   };
   const columnStyleWithOutWidth = {
-    marginLeft: 0
-  }
+    marginLeft: 0,
+  };
 
   // const handleClickUser = () => {
   //   setHideShowUser(!hideShowUser);
   //   setHideShowPost(false);
   // };
-
-
 
   const loadPost = () => {
     // axios.get("http://localhost:3001/posts").then((res) => {
@@ -103,7 +103,7 @@ const AdminAuthList = () => {
       .then((res) => {
         setPost(res.data.result.reverse());
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -120,7 +120,11 @@ const AdminAuthList = () => {
     overflow: "hidden",
     responsive: false,
     rowsPerPageOptions: false,
-
+    textLabels: {
+      body: {
+        noMatch: <p className={classes.nomatch}>No matching records found</p>,
+      },
+    },
   };
 
   const handleClose = () => {
@@ -135,8 +139,7 @@ const AdminAuthList = () => {
     setOpertion("edit");
   };
 
-
-  const onHandleDelete = (id) => {
+  const onHandleDelete = (username, id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You will not be able to recover this post!",
@@ -147,20 +150,25 @@ const AdminAuthList = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // axios.delete(`http://localhost:3001/posts/${id}`).then((response) => {
-        // TodoService.deleteTask(id).then((response) => {
-        axios
-          .delete(`http://127.0.0.1:3003/api/auth/${id}`)
-          .then((response) => {
-            Swal.fire("Deleted!", "Your post has been deleted.", "success");
-            loadPost();
-          })
-          .catch((err) => {
-            Swal.fire("Error!", "Your post has not been deleted.", "error");
-          });
+        // TodoService.deleteTask(id);
+        // TodoService.deleteManyTask(username)
+
+        // axios.delete(`http://127.0.0.1:3003/api/auth/${id}`);
+
+        axios.delete(`http://127.0.0.1:3003/api/v1/todo/name/${username}`) &&
+          axios
+            .delete(`http://127.0.0.1:3003/api/auth/${id}`)
+            .then((response) => {
+              Swal.fire("Deleted!", "Your post has been deleted.", "success");
+
+              loadPost();
+            })
+            .catch((err) => {
+              Swal.fire("Error!", "Your post has not been deleted.", "error");
+            });
       }
     });
   };
-
 
   const columns = [
     {
@@ -171,7 +179,7 @@ const AdminAuthList = () => {
         customBodyRenderLite: (dataIndex) => {
           return (
             <>
-              <span className={classes.mlId} >{dataIndex + 1}</span>
+              <span className={classes.mlId}>{dataIndex + 1}</span>
             </>
           );
         },
@@ -241,7 +249,8 @@ const AdminAuthList = () => {
         customBodyRenderLite: (dataIndex) => {
           return (
             <>
-              <span style={{ display: "none" }}
+              <span
+                style={{ display: "none" }}
                 className={classes.editIcon}
                 onClick={() => onHandleEdit(posts[dataIndex])}
               >
@@ -252,7 +261,10 @@ const AdminAuthList = () => {
               <span
                 className={classes.deleteIcon}
                 onClick={() => {
-                  onHandleDelete(posts[dataIndex]._id);
+                  onHandleDelete(
+                    posts[dataIndex].username,
+                    posts[dataIndex]._id
+                  );
                 }}
               >
                 <abbr title="Delete">
@@ -269,7 +281,6 @@ const AdminAuthList = () => {
       },
     },
   ];
-
 
   return (
     <>
