@@ -32,8 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: 1300,
-    margin: 10,
-    // boxShadow: "0 0 3px black"
+    margin: "auto",
+    // marginLeft: "auto",
+    marginTop: 10,
+    marginBottom: 10,
+    boxShadow: "0 0 1px black",
   },
   customWidth: {
     maxWidth: 200,
@@ -104,6 +107,7 @@ const PostList = () => {
     selectableRows: false, // <===== will turn off checkboxes in rows,
     print: false,
     download: false,
+    sort: false,
     // pagination: false,
     // resizableColumns: true,
     rowsPerPageOptions: false,

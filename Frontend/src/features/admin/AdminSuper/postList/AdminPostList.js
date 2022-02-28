@@ -96,6 +96,10 @@ const AdminPostList = () => {
     selectableRows: false,
     print: false,
     filterType: "dropdown",
+    // filterType: "checkbox",
+    sort: false,
+    responsive: false,
+
     download: false,
     // pagination: false,
     // resizableColumns: true
@@ -146,9 +150,7 @@ const AdminPostList = () => {
     {
       label: "Sr.No",
       name: "id",
-      // options: {
-      //     filter: false
-      // },
+
       options: {
         customBodyRenderLite: (dataIndex) => {
           return (

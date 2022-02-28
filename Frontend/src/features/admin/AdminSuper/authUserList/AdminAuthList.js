@@ -115,6 +115,7 @@ const AdminAuthList = () => {
     print: false,
     download: false,
     viewColumns: false,
+    sort: false,
     // pagination: false,
     // resizableColumns: true,
     overflow: "hidden",
@@ -142,7 +143,7 @@ const AdminAuthList = () => {
   const onHandleDelete = (username, id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You will not be able to recover this post!",
+      text: "You will not be able to recover this User!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
@@ -159,12 +160,12 @@ const AdminAuthList = () => {
           axios
             .delete(`http://127.0.0.1:3003/api/auth/${id}`)
             .then((response) => {
-              Swal.fire("Deleted!", "Your post has been deleted.", "success");
+              Swal.fire("Deleted!", " User has been deleted.", "success");
 
               loadPost();
             })
             .catch((err) => {
-              Swal.fire("Error!", "Your post has not been deleted.", "error");
+              Swal.fire("Error!", "User has not been deleted.", "error");
             });
       }
     });

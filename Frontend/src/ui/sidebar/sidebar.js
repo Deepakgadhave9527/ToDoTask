@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   active: {
-    backgroundColor: "lightgray",
+    backgroundColor: "#ecebeb",
     fontSize: 20,
   },
 }));

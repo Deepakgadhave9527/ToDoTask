@@ -8,6 +8,8 @@ import AdminContex from "./context/adminContex/AdminContex";
 import AdminPostList from "./features/admin/superAdmin/AdminPostList";
 import { useHistory } from "react-router-dom";
 import AdminModule from "./features/admin/AdminSuper/AdminModule";
+import Admin from "./features/admin/AdminSuper/Admin";
+import PageNotFound from "./ui/pageNotFound/PageNotFound";
 
 const App = () => {
   const history = useHistory();
@@ -81,11 +83,11 @@ const App = () => {
 
         {isLoggedInAdmin ? (
           <Route path="/admin">
-            <AdminModule />
+            <Admin />
           </Route>
         ) : (
           <AdminProtectedRoute path="/admin">
-            <AdminModule />
+            <Admin />
           </AdminProtectedRoute>
         )}
 

@@ -70,8 +70,8 @@ const Register = ({ addUserName }) => {
 
   const [user, setUser] = React.useState({
     username: "",
-    mobile: "",
-    email: "",
+    mobile: "9764010073",
+    email: "deep@gmail.com",
     password: "",
   });
   const handleClose = () => {
@@ -111,22 +111,54 @@ const Register = ({ addUserName }) => {
         setValidationPassword("");
       }, 5000);
       return false;
+    } else if (
+      user.username == "" ||
+      user.mobile == "" ||
+      user.email == "" ||
+      user.password == ""
+    ) {
+      if (user.username == "") {
+        setValidationName("Name is required.");
+        setTimeout(() => {
+          setValidationName("");
+        }, 5000);
+      }
+      if (user.mobile == "") {
+        setValidationMobile("Mobile is  Required.");
+        setTimeout(() => {
+          setValidationMobile("");
+        }, 5000);
+      }
+      if (user.email == "") {
+        setValidationEmail("Email is Required.");
+        setTimeout(() => {
+          setValidationEmail("");
+        }, 5000);
+      }
+      if (user.password == "") {
+        setValidationPassword("Password is Required.");
+        setTimeout(() => {
+          setValidationPassword("");
+        }, 4000);
+      }
+
+      return false;
     }
     return true;
   };
 
   const err = () => {
-    if (user.username == "") {
-      setValidation("Name is required.");
-      setTimeout(() => {
-        setValidation("");
-      }, 5000);
-      return false;
-    }
+    // if (user.username == "") {
+    //   setValidation("Name is required.");
+    //   setTimeout(() => {
+    //     setValidation("");
+    //   }, 5000);
+    //   return false;
+    // }
     if (user.username.length <= 1) {
-      setValidation("Name is required.");
+      setValidationName("Name is atleast 2 character .");
       setTimeout(() => {
-        setValidation("");
+        setValidationName("");
       }, 5000);
       return false;
     }
@@ -134,17 +166,17 @@ const Register = ({ addUserName }) => {
       setValidation("No special characters are allowed.");
       setTimeout(() => {
         setValidation("");
-      }, 4000);
-      return false;
-    }
-
-    if (user.mobile == "") {
-      setValidation("Mobile is Required.");
-      setTimeout(() => {
-        setValidation("");
       }, 5000);
       return false;
     }
+
+    // if (user.mobile == "") {
+    //   setValidation("Mobile is Required.");
+    //   setTimeout(() => {
+    //     setValidation("");
+    //   }, 5000);
+    //   return false;
+    // }
     if (/^[0]?[6789]\d{9}$/.test(user.mobile) === false) {
       setValidation("Mobile number should be 10 digit only");
       setTimeout(() => {
@@ -152,13 +184,13 @@ const Register = ({ addUserName }) => {
       }, 4000);
       return false;
     }
-    if (user.email === "") {
-      setValidation("Email is Required.");
-      setTimeout(() => {
-        setValidation("");
-      }, 5000);
-      return false;
-    }
+    // if (user.email === "") {
+    //   setValidation("Email is Required.");
+    //   setTimeout(() => {
+    //     setValidation("");
+    //   }, 5000);
+    //   return false;
+    // }
     if (
       /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(user.email) === false
     ) {
@@ -180,30 +212,30 @@ const Register = ({ addUserName }) => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    if (validate() == true) {
-      if (err() == true) {
-        API.post("http://127.0.0.1:3003/api/auth/post", user)
-          .then((res) => {
-            setAuthenticated(true);
-            history.push("/login");
-            // addUserName(user)
+    if (validate() == true && err() == true) {
+      // if (err() == true) {
+      API.post("http://127.0.0.1:3003/api/auth/post", user)
+        .then((res) => {
+          setAuthenticated(true);
+          history.push("/login");
+          // addUserName(user)
 
-            toast("Your Successfully Register", {
-              position: "top-center",
-              autoClose: 1200,
-              hideProgressBar: false,
-              closeOnClick: true,
-            });
-          })
-          .catch((err) => {
-            toast("faild to insert", {
-              position: "top-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-            });
+          toast("Your Successfully Register", {
+            position: "top-center",
+            autoClose: 1200,
+            hideProgressBar: false,
+            closeOnClick: true,
           });
-      }
+        })
+        .catch((err) => {
+          toast("faild to insert", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+          });
+        });
+      // }
     }
   };
 
@@ -337,7 +369,7 @@ const Register = ({ addUserName }) => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/login">Do have an account" Sign in"</Link>
+                <Link to="/login">Do have an account "Sign in"</Link>
               </Grid>
             </Grid>
           </form>

@@ -50,7 +50,7 @@ const PostForm = ({ open, handleClose, initialPost, opertion, loadPost }) => {
     } else setErrorMessageTitle("");
 
     if (post.author == "") {
-      SetErrorMessageAuthor("Please Enter Description");
+      SetErrorMessageAuthor("Please Enter  Description");
       return false;
     } else SetErrorMessageAuthor("");
 
@@ -64,7 +64,45 @@ const PostForm = ({ open, handleClose, initialPost, opertion, loadPost }) => {
   const validate = () => {
     if (post.title == "" && post.author == "" && post.body == "") {
       setErrorMessageTitle("Please Enter Title");
-      SetErrorMessageAuthor("Please Enter Description");
+      SetErrorMessageAuthor("Please Enter   Description");
+      setErrorMessageStage("Please Enter stage");
+      setTimeout(() => {
+        setErrorMessageTitle("");
+        SetErrorMessageAuthor("");
+        setErrorMessageStage("");
+      }, 5000);
+      return false;
+    } else if (post.title == "" || post.author == "" || post.body == "") {
+      if (post.title == "") {
+        setErrorMessageTitle("Please Enter Title");
+        setTimeout(() => {
+          setErrorMessageTitle("");
+        }, 5000);
+      }
+      if (post.author == "") {
+        SetErrorMessageAuthor("Please Enter   Description");
+        setTimeout(() => {
+          SetErrorMessageAuthor("");
+        }, 5000);
+      }
+      if (post.body == "") {
+        setErrorMessageStage("Please Enter stage");
+        setTimeout(() => {
+          setErrorMessageStage("");
+        }, 5000);
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // };
+  /*
+  const validate = () => {
+    if (post.title == "" && post.author == "" && post.body == "") {
+      setErrorMessageTitle("Please Enter Title");
+      SetErrorMessageAuthor("Please Enter  Description");
       setErrorMessageStage("Please Enter stage");
       setTimeout(() => {
         setErrorMessageTitle("");
@@ -75,6 +113,7 @@ const PostForm = ({ open, handleClose, initialPost, opertion, loadPost }) => {
     }
     return true;
   };
+  */
   // if (validate() == true) {
   // }
 
@@ -84,50 +123,50 @@ const PostForm = ({ open, handleClose, initialPost, opertion, loadPost }) => {
     e.preventDefault();
     if (opertion === "edit") {
       if (validate() == true) {
-        if (error() == true) {
-          //edit operation
-          // axios.put(`http://localhost:3001/posts/${post.id}`, post).then(res => {
+        // if (error() == true) {
+        //edit operation
+        // axios.put(`http://localhost:3001/posts/${post.id}`, post).then(res => {
 
-          TodoService.updateTask(post._id, post).then((res) => {
-            loadPost();
-            toast("Task is update", {
-              position: "top-center",
-              autoClose: 900,
-              hideProgressBar: false,
-              closeOnClick: true,
-            });
-            handleClose(false);
+        TodoService.updateTask(post._id, post).then((res) => {
+          loadPost();
+          toast("Task is update", {
+            position: "top-center",
+            autoClose: 900,
+            hideProgressBar: false,
+            closeOnClick: true,
           });
-          // error()
-        }
+          handleClose(false);
+        });
+        // error()
+        // }
       }
     } else {
       if (validate() == true) {
-        if (error() == true) {
-          // axios.post("http://127.0.0.1:3003/api/auth/post", post).then((res) => {
-          // })
-          // axios.post("http://localhost:3001/posts", post).then((res) => {
+        // if (error() == true) {
+        // axios.post("http://127.0.0.1:3003/api/auth/post", post).then((res) => {
+        // })
+        // axios.post("http://localhost:3001/posts", post).then((res) => {
 
-          TodoService.createTask(post).then((res) => {
-            setPostAddData(res.data.result);
-            var receiveddata = JSON.stringify(res.data.result);
+        TodoService.createTask(post).then((res) => {
+          setPostAddData(res.data.result);
+          var receiveddata = JSON.stringify(res.data.result);
 
-            let userList = JSON.parse(localStorage.getItem("users"));
-            if (!Array.isArray(userList)) userList = [];
-            userList.push(receiveddata);
-            localStorage.setItem("users", JSON.stringify(receiveddata));
+          let userList = JSON.parse(localStorage.getItem("users"));
+          if (!Array.isArray(userList)) userList = [];
+          userList.push(receiveddata);
+          localStorage.setItem("users", JSON.stringify(receiveddata));
 
-            loadPost();
+          loadPost();
 
-            toast("Task is add", {
-              position: "top-center",
-              autoClose: 1000,
-              closeOnClick: true,
-            });
-
-            handleClose(false);
+          toast("Task is add", {
+            position: "top-center",
+            autoClose: 1000,
+            closeOnClick: true,
           });
-        }
+
+          handleClose(false);
+        });
+        // }
       }
     }
   };

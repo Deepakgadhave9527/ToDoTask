@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import AdminAuthList from "./authUserList/AdminAuthList";
 import AdminPostList from "./postList/AdminPostList";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,6 +6,9 @@ import ToggleDisplay from "react-toggle-display";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useEffect, useState } from "react";
 import { Box, Card, Fab, Grid, Typography } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { Switch, Route, Redirect } from "react-router-dom";
+
 import ForumIcon from "@material-ui/icons/Forum";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -19,9 +22,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import { Route } from "react-router";
+// import { Route } from "react-router";
 import { NavLink } from "react-router-dom";
 import Sidebar from "../../../ui/sidebar/Sidebar";
+import PageNotFound from "../../../ui/pageNotFound/PageNotFound";
 
 const drawerWidth = 240;
 
@@ -62,24 +66,53 @@ const AdminModule = () => {
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={12}>
+      <Suspense
+        fallback={
+          <div
+            sx={{
+              display: "flex",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              margin: "auto",
+            }}
+          >
+            {" "}
+            <CircularProgress />
+          </div>
+        }
+      >
+        {/* <Grid container> */}
+        {/* <Grid item xs={12}>
           <Sidebar />
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} style={{ marginTop: -880, marginLeft: 218 }}>
-            <Route path="/admin/post">
-              <AdminPostList />
-            </Route>
-          </Grid>
+        </Grid> */}
+        <Switch>
+          {/* <Grid container> */}
+          <Route path="/admin/post">
+            <Sidebar />
 
-          <Grid item xs={12} style={{ marginTop: -880, marginLeft: 218 }}>
-            <Route path="/admin/auth">
+            <Grid item xs={12} style={{ marginTop: -880, marginLeft: 218 }}>
+              <AdminPostList />
+            </Grid>
+          </Route>
+
+          <Route path="/admin/auth">
+            <Sidebar />
+
+            <Grid item xs={12} style={{ marginTop: -880, marginLeft: 218 }}>
               <AdminAuthList />
-            </Route>
-          </Grid>
-        </Grid>
-      </Grid>
+            </Grid>
+          </Route>
+
+          <Route path={`*`}>
+            {/* <Grid item xs={12} style={{ marginTop: -880, marginLeft: 218 }}> */}
+            <PageNotFound />
+            {/* </Grid> */}
+          </Route>
+          {/* </Grid> */}
+        </Switch>
+        {/* </Grid> */}
+      </Suspense>
     </>
   );
 };

@@ -1,0 +1,29 @@
+body{
+    background-color: hsl(187, 44%, 96%);
+}
+.body{
+    background-color: hsl(293, 19%, 91%);
+    height: 89.8vh;
+}
+
+span.four {
+padding: 18px;
+    font-size: 200px;
+	border-radius: 999px;
+	background:
+		linear-gradient(140deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.07) 43%, transparent 44%, transparent 100%),
+		linear-gradient(105deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.06) 41%, rgba(0, 0, 0, 0.07) 76%, transparent 77%, transparent 100%),
+		linear-gradient(to right, #d89ca4, #e27b7e);
+}
+.zero {
+    font-size: 200px;
+padding: 18px;
+margin: 7px;
+	border-radius: 999px;
+	background: linear-gradient(-45deg, transparent 0%, rgba(0, 0, 0, 0.06) 50%,  transparent 51%, transparent 100%),
+		linear-gradient(to top right, #99749D, #99749D, #B895AB, #CC9AA6, #D7969E, #ED8687, #ED8687);
+}
+.tokens{
+    text-decoration: 'none'
+    
+}
