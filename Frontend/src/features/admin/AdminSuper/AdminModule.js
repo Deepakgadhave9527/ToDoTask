@@ -24,7 +24,7 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 // import { Route } from "react-router";
 import { NavLink } from "react-router-dom";
-import Sidebar from "../../../ui/sidebar/Sidebar";
+import Sidebar from "../../../ui/sidebar/sidebar";
 import PageNotFound from "../../../ui/pageNotFound/PageNotFound";
 
 const drawerWidth = 240;
